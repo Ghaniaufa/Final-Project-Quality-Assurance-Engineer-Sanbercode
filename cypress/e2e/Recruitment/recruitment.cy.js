@@ -128,4 +128,26 @@ describe('OrangeHRM Recruitment POM', () => {
     recruitment.verifyTable()
 
     })
+    //TC008
+    it('TC008 Verify Recruitment URL + Intercept', () => {
+
+    cy.intercept(
+        'GET',
+        '**/api/v2/recruitment/candidates*'
+    ).as('candidate')
+
+    recruitment.menuRecruitment()
+
+    cy.wait('@candidate', { timeout: 20000 })
+        .then((interception) => {
+
+            expect(interception.response.statusCode).to.eq(200)
+
+            expect(interception.response.body).to.have.property('data')
+
+        })
+
+    recruitment.verifyRecruitmentPage()
+
+    })
 })
