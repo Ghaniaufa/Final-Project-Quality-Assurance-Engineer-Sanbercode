@@ -21,14 +21,24 @@ class DirectoryPage {
             .type(name)
     }
 
-    selectJobTitle(title) {
-        cy.get('.oxd-select-text').eq(0).click()
-        cy.contains('.oxd-select-option', title).click()
+    selectJobTitle() {
+
+    cy.get('.oxd-select-text').eq(0).click()
+
+    cy.get('.oxd-select-dropdown .oxd-select-option')
+        .eq(1)
+        .click()
+
     }
 
-    selectLocation(location) {
-        cy.get('.oxd-select-text').eq(1).click()
-        cy.contains('.oxd-select-option', location).click()
+    selectLocation() {
+
+    cy.get('.oxd-select-text').eq(1).click()
+
+    cy.get('.oxd-select-dropdown .oxd-select-option')
+        .eq(1)
+        .click()
+
     }
 
     clickSearch() {
