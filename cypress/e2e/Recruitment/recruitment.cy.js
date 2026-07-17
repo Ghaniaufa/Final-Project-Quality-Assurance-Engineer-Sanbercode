@@ -67,4 +67,15 @@ describe('OrangeHRM Recruitment POM', () => {
     recruitment.clickReset()
 
     })
+    it('TC004 Verify Candidate Name Input', () => {
+
+    recruitment.menuRecruitment()
+
+    recruitment.inputCandidateName(data.candidate)
+
+    cy.get('input[placeholder="Type for hints..."]')
+        .first()
+        .should('have.value', data.candidate)
+
+    })
 })
