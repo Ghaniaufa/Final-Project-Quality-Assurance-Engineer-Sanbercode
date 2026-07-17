@@ -57,4 +57,14 @@ describe('OrangeHRM Recruitment POM', () => {
     recruitment.verifyTable()
 
     })
+    //TC003
+    it('TC003 Reset Search', () => {
+
+    recruitment.menuRecruitment()
+
+    recruitment.inputCandidateName(data.candidate)
+
+    recruitment.clickReset()
+
+    })
 })
