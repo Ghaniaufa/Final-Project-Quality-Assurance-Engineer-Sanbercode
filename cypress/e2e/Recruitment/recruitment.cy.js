@@ -97,4 +97,18 @@ describe('OrangeHRM Recruitment POM', () => {
     recruitment.verifyTable()
 
     })
+    //TC006
+    it('TC006 Verify Reset Button', () => {
+
+    recruitment.menuRecruitment()
+
+    recruitment.inputCandidateName(data.candidate)
+
+    recruitment.verifyResetButton()
+
+    recruitment.clickReset()
+
+    recruitment.verifyRecruitmentPage()
+
+    })
 })
