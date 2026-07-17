@@ -81,4 +81,20 @@ describe('OrangeHRM Directory POM',()=>{
     directory.verifyResultExist()
 
     })
+    //TC005
+    it('TC005 Search Location',()=>{
+
+    directory.menuDirectory()
+
+    cy.intercept('GET','**directory*').as('search')
+
+    directory.selectLocation(data.location)
+
+    directory.clickSearch()
+
+    cy.wait('@search')
+
+    directory.verifyResultExist()
+
+    })
 })
