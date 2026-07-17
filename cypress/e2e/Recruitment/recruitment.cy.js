@@ -67,6 +67,7 @@ describe('OrangeHRM Recruitment POM', () => {
     recruitment.clickReset()
 
     })
+    //TC004
     it('TC004 Verify Candidate Name Input', () => {
 
     recruitment.menuRecruitment()
@@ -76,6 +77,24 @@ describe('OrangeHRM Recruitment POM', () => {
     cy.get('input[placeholder="Type for hints..."]')
         .first()
         .should('have.value', data.candidate)
+
+    })
+    it('TC005 Verify Search Button', () => {
+
+    recruitment.menuRecruitment()
+
+    cy.intercept(
+        'GET',
+        '**/api/v2/recruitment/candidates*'
+    ).as('search')
+
+    recruitment.verifySearchButton()
+
+    recruitment.clickSearch()
+
+    cy.wait('@search', { timeout: 20000 })
+
+    recruitment.verifyTable()
 
     })
 })
