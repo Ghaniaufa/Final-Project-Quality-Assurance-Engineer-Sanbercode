@@ -68,21 +68,22 @@ describe('OrangeHRM Directory POM',()=>{
 
     })
     //TC004
-    it('TC004 Search Job Title',()=>{
+    it('TC004 Search Without Filter', () => {
+
+    cy.intercept(
+        'GET',
+        '**/api/v2/directory/employees*'
+    ).as('search')
 
     directory.menuDirectory()
 
-    cy.intercept('GET','**/api/v2/directory/employees*').as('search')
-
-    directory.selectJobTitle(data.jobTitle)
-
     directory.clickSearch()
 
-    cy.wait('@search', {timeout:20000})
+    cy.wait('@search')
 
     directory.verifyResultExist()
 
-    })
+})
     //TC005
     it('TC005 Search Location',()=>{
 
@@ -99,15 +100,11 @@ describe('OrangeHRM Directory POM',()=>{
     })
     //TC006
     it('TC006 Search Job and Location',()=>{
-
+    cy.intercept('GET','**/api/v2/directory/employees*').as('search')
+    
     directory.menuDirectory()
-
-    cy.intercept('GET','**directory*').as('search')
-
     directory.selectJobTitle(data.jobTitle)
-
     directory.selectLocation(data.location)
-
     directory.clickSearch()
 
     cy.wait('@search')
