@@ -2,19 +2,29 @@ class LoginPage {
 
     visit(){
 
-        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
+    cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
 
-    }
+    cy.get('input[name="username"]',{
+        timeout:20000
+    }).should('be.visible')
+
+}
 
    inputUsername(username){
 
-    cy.get('input[name="username"]').clear()
+    cy.get('input[name="username"]',{
+        timeout:20000
+    })
+    .should('be.visible')
+    .clear()
 
     if(username){
+
         cy.get('input[name="username"]').type(username)
-    }
 
     }
+
+}
 
     inputPassword(password){
 
