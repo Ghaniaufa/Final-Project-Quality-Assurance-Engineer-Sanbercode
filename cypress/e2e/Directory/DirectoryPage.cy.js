@@ -128,4 +128,16 @@ describe('OrangeHRM Directory POM',()=>{
       .should('have.value','')
 
     })
+    //TC008
+    it('TC008 Verify Directory Page',()=>{
+
+    cy.intercept('GET','**/directory/**').as('directory')
+
+    directory.menuDirectory()
+
+    cy.wait('@directory')
+
+    directory.verifyDirectoryPage()
+
+    })
 })
