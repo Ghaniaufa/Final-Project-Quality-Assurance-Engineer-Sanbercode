@@ -115,4 +115,17 @@ describe('OrangeHRM Directory POM',()=>{
     directory.verifyResultExist()
 
     })
+    //TC007
+    it('TC007 Reset Search',()=>{
+
+    directory.menuDirectory()
+
+    directory.inputEmployee(data.employeeName)
+
+    directory.clickReset()
+
+    cy.get('input[placeholder="Type for hints..."]')
+      .should('have.value','')
+
+    })
 })
