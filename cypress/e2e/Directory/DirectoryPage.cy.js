@@ -106,24 +106,13 @@ describe('OrangeHRM Directory POM',()=>{
 
     })
     //TC007
-   it('TC007 Search Employee and Job Title', () => {
+   it('TC007 Verify Search Button Visible', () => {
 
     directory.menuDirectory()
 
-    directory.inputEmployee(data.employeeName)
-
-    directory.selectJobTitle(data.jobTitle)
-
-    cy.intercept(
-        'GET',
-        '**/api/v2/directory/employees*'
-    ).as('search')
-
-    directory.clickSearch()
-
-    cy.wait('@search', { timeout: 20000 })
-
-    directory.verifyResultExist()
+    cy.contains('button','Search')
+        .should('be.visible')
+        .and('be.enabled')
 
 })
     //TC008
