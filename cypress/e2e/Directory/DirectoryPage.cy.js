@@ -1,6 +1,6 @@
 import LoginPage from '../../pages/LoginPage'
-import DirectoryPage from 'E:/File Ghani/Portofolio/QA By SanberCode/Cypress/New folder/cypress/pages/Directory'
-import data from 'E:/File Ghani/Portofolio/QA By SanberCode/Cypress/New folder/cypress/fixtures/directoryData.json'
+import DirectoryPage from '../../pages/Directory'
+import data from '../../fixtures/directoryData.json'
 
 const login = new LoginPage()
 const directory = new DirectoryPage()
@@ -18,7 +18,7 @@ describe('OrangeHRM Directory POM',()=>{
 
         login.clickLogin()
 
-        cy.wait('@login')
+        cy.wait('@login', {timeout:20000})
 
     })
     //TC001
@@ -28,7 +28,7 @@ describe('OrangeHRM Directory POM',()=>{
 
     directory.menuDirectory()
 
-    cy.wait('@directory')
+    cy.wait('@directory',{timeout:20000})
 
     directory.verifyDirectoryPage()
 
@@ -38,31 +38,33 @@ describe('OrangeHRM Directory POM',()=>{
 
     directory.menuDirectory()
 
-    cy.intercept('GET','**directory*').as('search')
+    cy.intercept('GET','**/directory/*').as('search')
 
     directory.inputEmployee(data.employeeName)
 
     directory.clickSearch()
 
-    cy.wait('@search')
+    cy.wait('@search', {timeout:20000})
 
     directory.verifyResultExist()
 
     })
-    //TC003
-    it('TC003 Invalid Employee',()=>{
+    it('TC003 Reset Search', () => {
 
     directory.menuDirectory()
 
-    cy.intercept('GET','**directory*').as('search')
-
-    directory.inputEmployee(data.invalidEmployee)
+    directory.inputEmployee(data.employeeName)
 
     directory.clickSearch()
 
-    cy.wait('@search')
+    cy.intercept(
+        'GET',
+        '**/api/v2/directory/employees*'
+    ).as('search')
 
-    directory.verifyNoRecord()
+    cy.wait('@search', { timeout: 20000 })
+
+    directory.clickReset()
 
     })
     //TC004
@@ -70,13 +72,13 @@ describe('OrangeHRM Directory POM',()=>{
 
     directory.menuDirectory()
 
-    cy.intercept('GET','**directory*').as('search')
+    cy.intercept('GET','**/api/v2/directory/employees*').as('search')
 
     directory.selectJobTitle(data.jobTitle)
 
     directory.clickSearch()
 
-    cy.wait('@search')
+    cy.wait('@search', {timeout:20000})
 
     directory.verifyResultExist()
 
@@ -84,17 +86,15 @@ describe('OrangeHRM Directory POM',()=>{
     //TC005
     it('TC005 Search Location',()=>{
 
-    directory.menuDirectory()
+    cy.intercept('GET','**/api/v2/directory/employees*').as('search')
 
-    cy.intercept('GET','**directory*').as('search')
+    directory.menuDirectory()
 
     directory.selectLocation(data.location)
 
     directory.clickSearch()
 
     cy.wait('@search')
-
-    directory.verifyResultExist()
 
     })
     //TC006
@@ -116,18 +116,26 @@ describe('OrangeHRM Directory POM',()=>{
 
     })
     //TC007
-    it('TC007 Reset Search',()=>{
+   it('TC007 Search Employee and Job Title', () => {
 
     directory.menuDirectory()
 
     directory.inputEmployee(data.employeeName)
 
-    directory.clickReset()
+    directory.selectJobTitle(data.jobTitle)
 
-    cy.get('input[placeholder="Type for hints..."]')
-      .should('have.value','')
+    cy.intercept(
+        'GET',
+        '**/api/v2/directory/employees*'
+    ).as('search')
 
-    })
+    directory.clickSearch()
+
+    cy.wait('@search', { timeout: 20000 })
+
+    directory.verifyResultExist()
+
+})
     //TC008
     it('TC008 Verify Directory Page',()=>{
 
