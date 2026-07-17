@@ -4,23 +4,44 @@ import data from 'E:/File Ghani/Portofolio/QA By SanberCode/Cypress/New folder/c
 const login = new LoginPage()
 
 describe('OrangeHRM Login POM', () => {
-    //TC001
-    it('TC001 - Login Success', () => {
+    it('TC001 Login Success',()=>{
 
-        login.visit()
-        login.inputUsername(data.validUser)
-        login.inputPassword(data.validPassword)
-        login.clickLogin()
-        login.verifyDashboard()
+    cy.intercept(
+        'POST',
+        '**/auth/validate'
+    ).as('loginSuccess')
 
-    })
+    login.visit()
+
+    login.inputUsername(data.validUser)
+
+    login.inputPassword(data.validPassword)
+
+    login.clickLogin()
+
+    cy.wait('@loginSuccess')
+      .its('response.statusCode')
+      .should('eq',302)
+
+    login.verifyDashboard()
+
+})
     //TC002
     it('TC002 Empty Username',()=>{
+
+        cy.intercept(
+        'POST',
+        '**/auth/validate'
+    ).as('loginEmptyUser')
 
         login.visit()
         login.inputUsername(data.empty)
         login.inputPassword(data.validPassword)
         login.clickLogin()
+        cy.contains('Required').should('be.visible')
+
+        cy.wait('@loginEmptyUser')
+
         cy.contains('Required').should('be.visible')
 
     })
