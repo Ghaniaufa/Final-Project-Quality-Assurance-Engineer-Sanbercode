@@ -1,48 +1,51 @@
-class RecruitmentPage{
+class RecruitmentPage {
 
-candidateName(){
+    menuRecruitment() {
+        cy.contains('Recruitment', { timeout: 20000 })
+            .should('be.visible')
+            .click()
 
-return cy.get('input[placeholder="Type for hints..."]').first()
+        cy.url().should('include', 'recruitment')
+    }
 
-}
+    verifyRecruitmentPage() {
+        cy.url().should('include', 'recruitment')
 
-clickSearch(){
+        cy.contains('Candidates')
+            .should('be.visible')
+    }
 
-cy.contains('Search').click()
+    inputCandidateName(name) {
+        cy.get('input[placeholder="Type for hints..."]')
+            .first()
+            .clear()
+            .type(name)
+    }
 
-}
+    clickSearch() {
+        cy.contains('button', 'Search').click()
+    }
 
-clickReset(){
+    clickReset() {
+        cy.contains('button', 'Reset').click()
+    }
 
-cy.contains('Reset').click()
+    verifyTable() {
+        cy.get('.oxd-table')
+            .should('be.visible')
+    }
 
-}
+    verifySearchButton() {
+        cy.contains('button', 'Search')
+            .should('be.visible')
+            .and('be.enabled')
+    }
 
-clickAdd(){
-
-cy.contains('Add').click()
-
-}
-
-clickCancel(){
-
-cy.contains('Cancel').click()
-
-}
-
-candidateTable(){
-
-return cy.get('.oxd-table')
-
-}
-
-clickFirstCandidate(){
-
-cy.get('.oxd-table-body .oxd-table-card')
-.first()
-.click()
-
-}
+    verifyResetButton() {
+        cy.contains('button', 'Reset')
+            .should('be.visible')
+            .and('be.enabled')
+    }
 
 }
 
