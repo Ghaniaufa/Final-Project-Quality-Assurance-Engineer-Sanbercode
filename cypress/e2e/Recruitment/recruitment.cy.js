@@ -111,4 +111,21 @@ describe('OrangeHRM Recruitment POM', () => {
     recruitment.verifyRecruitmentPage()
 
     })
+    //TC007
+    it('TC007 Verify Recruitment Table', () => {
+
+    cy.intercept(
+        'GET',
+        '**/api/v2/recruitment/candidates*'
+    ).as('candidate')
+
+    recruitment.menuRecruitment()
+
+    cy.wait('@candidate', { timeout: 20000 })
+        .its('response.statusCode')
+        .should('eq', 200)
+
+    recruitment.verifyTable()
+
+    })
 })
