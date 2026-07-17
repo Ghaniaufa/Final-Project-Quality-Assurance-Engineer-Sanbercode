@@ -21,7 +21,7 @@ describe('OrangeHRM Directory POM',()=>{
         cy.wait('@login')
 
     })
-
+    //TC001
     it('TC001 Open Directory',()=>{
 
     cy.intercept('GET','**/directory/**').as('directory')
@@ -33,4 +33,21 @@ describe('OrangeHRM Directory POM',()=>{
     directory.verifyDirectoryPage()
 
     })
+    //TC002
+    it('TC002 Search Employee',()=>{
+
+    directory.menuDirectory()
+
+    cy.intercept('GET','**directory*').as('search')
+
+    directory.inputEmployee(data.employeeName)
+
+    directory.clickSearch()
+
+    cy.wait('@search')
+
+    directory.verifyResultExist()
+
+    })
+
 })
