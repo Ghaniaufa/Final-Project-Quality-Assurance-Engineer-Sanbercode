@@ -4,12 +4,10 @@ import data from 'E:/File Ghani/Portofolio/QA By SanberCode/Cypress/New folder/c
 const login = new LoginPage()
 
 describe('OrangeHRM Login POM', () => {
+    //TC001
     it('TC001 Login Success',()=>{
 
-    cy.intercept(
-        'POST',
-        '**/auth/validate'
-    ).as('loginSuccess')
+    cy.intercept('POST','**/auth/validate').as('loginSuccess')
 
     login.visit()
 
@@ -19,20 +17,14 @@ describe('OrangeHRM Login POM', () => {
 
     login.clickLogin()
 
-    cy.wait('@loginSuccess')
-      .its('response.statusCode')
-      .should('eq',302)
+    cy.wait('@loginSuccess').its('response.statusCode').should('eq',302)
 
     login.verifyDashboard()
 
-})
+    })
     //TC002
     it('TC002 Empty Username',()=>{
 
-        cy.intercept(
-        'POST',
-        '**/auth/validate'
-    ).as('loginEmptyUser')
 
         login.visit()
         login.inputUsername(data.empty)
@@ -40,46 +32,60 @@ describe('OrangeHRM Login POM', () => {
         login.clickLogin()
         cy.contains('Required').should('be.visible')
 
-        cy.wait('@loginEmptyUser')
-
-        cy.contains('Required').should('be.visible')
-
     })
     //TC003
     it('TC003 Empty Password',() => {
+
 
         login.visit()
         login.inputUsername(data.validUser)
         login.inputPassword(data.empty)
         login.clickLogin()
+
         cy.contains('Required').should('be.visible')
     })
     //TC004
     it('TC004 Empty Username and Password',() => {
-
+        
         login.visit()
         login.inputUsername(data.empty)
         login.inputPassword(data.empty)
         login.clickLogin()
+
+
         cy.contains('Required').should('be.visible')
     })
     //TC005
-    it('TC005 Invalid Username',()=>{
+    it('TC005 Invalid Username', () => {
+
+    cy.intercept('POST', '**/auth/validate').as('invalidLogin')
 
     login.visit()
     login.inputUsername(data.wrongUser)
     login.inputPassword(data.validPassword)
     login.clickLogin()
+
+    cy.wait('@invalidLogin').then((interception) => {
+        expect(interception.response.statusCode).to.eq(302)
+    })
+
     login.verifyInvalidCredential()
 
-    })
+})
     //TC006
-    it('TC006 Invalid Password',()=>{
+  it('TC006 Invalid Password', () => {
+
+    cy.intercept('POST', '**/auth/validate').as('invalidLogin')
 
     login.visit()
     login.inputUsername(data.validUser)
     login.inputPassword(data.wrongPassword)
     login.clickLogin()
+
+    cy.wait('@invalidLogin').then((interception) => {
+        expect(interception.response.statusCode).to.eq(302)
+    })
+
     login.verifyInvalidCredential()
 
     })
