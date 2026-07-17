@@ -49,5 +49,36 @@ describe('OrangeHRM Directory POM',()=>{
     directory.verifyResultExist()
 
     })
+    //TC003
+    it('TC003 Invalid Employee',()=>{
 
+    directory.menuDirectory()
+
+    cy.intercept('GET','**directory*').as('search')
+
+    directory.inputEmployee(data.invalidEmployee)
+
+    directory.clickSearch()
+
+    cy.wait('@search')
+
+    directory.verifyNoRecord()
+
+    })
+    //TC004
+    it('TC004 Search Job Title',()=>{
+
+    directory.menuDirectory()
+
+    cy.intercept('GET','**directory*').as('search')
+
+    directory.selectJobTitle(data.jobTitle)
+
+    directory.clickSearch()
+
+    cy.wait('@search')
+
+    directory.verifyResultExist()
+
+    })
 })
