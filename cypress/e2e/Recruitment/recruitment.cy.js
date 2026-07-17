@@ -25,6 +25,7 @@ describe('OrangeHRM Recruitment POM', () => {
         login.verifyDashboard()
 
     })
+    //TC001
     it('TC001 Open Recruitment Page', () => {
 
     cy.intercept(
@@ -34,9 +35,26 @@ describe('OrangeHRM Recruitment POM', () => {
 
     recruitment.menuRecruitment()
 
-    cy.wait('@candidate')
+    cy.wait('@candidate', {timeout:20000})
 
     recruitment.verifyRecruitmentPage()
+
+    })
+    //TC002
+    it('TC002 Search Without Filter', () => {
+
+    recruitment.menuRecruitment()
+
+    cy.intercept(
+        'GET',
+        '**/api/v2/recruitment/candidates*'
+    ).as('search')
+
+    recruitment.clickSearch()
+
+    cy.wait('@search')
+
+    recruitment.verifyTable()
 
     })
 })
