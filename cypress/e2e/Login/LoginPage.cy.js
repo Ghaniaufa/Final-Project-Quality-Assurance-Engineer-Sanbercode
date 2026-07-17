@@ -1,5 +1,5 @@
-import LoginPage from '../../pages/LoginPage.js'
-import data from '../../fixtures/loginData.json'
+import LoginPage from 'E:/File Ghani/Portofolio/QA By SanberCode/Cypress/New folder/cypress/pages/LoginPage'
+import data from 'E:/File Ghani/Portofolio/QA By SanberCode/Cypress/New folder/cypress/fixtures/loginData.json'
 
 const login = new LoginPage()
 
